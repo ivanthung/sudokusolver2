@@ -12,7 +12,7 @@ def get_one(
     sdk_obj: str ) -> np.array:
 
     sdk_obj = sdk_obj.split()
-    sdk_pzl = np.array( [n for n in sdk_obj[1]]
+    sdk_pzl = np.array( [int(n) for n in sdk_obj[1]]
                        ).reshape(9,9)
 
     # sdk_id = sdk_obj[0]
@@ -24,5 +24,3 @@ def load_sdk(amount=1, difficulty = 'easy') -> list:
     with open(file) as myfile:
         sdk_list = [next(myfile) for x in range(0, amount)]
     return [get_one(sdk) for sdk in sdk_list]
-
-print(load_sdk(10, 'hard'))

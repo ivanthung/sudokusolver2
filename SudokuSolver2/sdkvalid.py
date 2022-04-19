@@ -1,37 +1,10 @@
-""" Sdkvalid contains a set of functions to validate rows and generate missing numbers"""
+"""
+Sdkvalid contains a set of functions to validate rows and generate missing numbers
+All solving strategies will have these functions in common, so that solving times will not differ
+based on these function
+"""
 
 import numpy as np
-
-solved_sudoku = [
-            [7,8,4,  1,5,9,  3,2,6],
-            [5,3,9,  6,7,2,  8,4,1],
-            [6,1,2,  4,3,8,  7,5,9],
-
-            [9,2,8,  7,1,5,  4,6,3],
-            [3,5,7,  8,4,6,  1,9,2],
-            [4,6,1,  9,2,3,  5,8,7],
-
-            [8,7,6,  3,9,4,  2,1,5],
-            [2,4,3,  5,6,1,  9,7,8],
-            [1,9,5,  2,8,7,  6,3,4]
-        ]
-
-not_solved_sudoku = [
-    [7,0,0,  0,0,0,  0,0,6],
-    [0,0,0,  6,0,0,  0,4,0],
-    [0,0,2,  0,0,8,  0,0,0],
-
-    [0,0,8,  0,0,0,  0,0,0],
-    [0,5,0,  8,0,6,  0,0,0],
-    [0,0,0,  0,2,0,  0,0,0],
-
-    [0,0,0,  0,0,0,  0,1,0],
-    [0,4,0,  5,0,0,  0,0,0],
-    [0,0,5,  0,0,7,  0,0,4]
-]
-
-solved_sdk = np.array(solved_sudoku)
-not_solved_sdk = np.array(not_solved_sudoku)
 
 def missing_values(row: list) -> list:
     """ Takes a list and returns a list of missing values.
@@ -84,7 +57,6 @@ def mv_solution_space_size(values_sdk):
     Returns a numpy object array with number of potential values for all EMPTY cells
     For cells with only one possible value, it returns a 1.
     Potential uses:
-    np.sum (mv_solution_space_size(values_sdk)) == 81 -> this is a valid Sudoku solution.
     np.sum (mv_solution_space_size(values_sdk1)) <  np.sum (mv_solution_space_size(values_sdk2))
     -> sdk1 represents a smaller solution space than sdk2
     """
@@ -92,6 +64,13 @@ def mv_solution_space_size(values_sdk):
     vf = np.vectorize(f)
     return vf(values_sdk)
 
-m = mv_matrix(solved_sdk)
-print(mv_solution_space_size(m))
-print(np.sum(mv_solution_space_size(m)))
+def is_valid(sdk):
+    """ Check if the full solution is valid"""
+    pass
+
+def is_possible(cell: tuple, value: int, sdk: np.array):
+    """ Check if inserting the value is possible at the cell"""
+    return True if value in mv_cell(cell,sdk) else False
+
+def empty_cells(sdk):
+    return [(x, y) for x in range (0,9) for y in range (0,9) if sdk[x, y] == 0]
